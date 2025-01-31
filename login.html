@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./style.css">
+    
+</head>
+<body>
+    <div class="container">
+        <form class="form" action="./login.php" method="post">
+            <h1 class="page-name">Login</h1>
+            <!-- Email input -->
+            <input class="input-place" type="text" id="userNameOrEmail" placeholder="Username or  email address" name="email" onkeyup="checkUserEmail()">
+            <span class="validation ucheck"></span>
+            <!-- Password input -->
+            <input class="input-place" type="password" id="password" placeholder="Password" name="pass">
+            <span class="validation pcheck"></span>
+            <!-- Password show checkbox -->
+            <span><label for="showPassword"><input type="checkbox" id="showPassword"> Show password</label></span>
+            <!-- <input class="input-place submit-btn" type="submit" value="Login"> -->
+            <button class="btn"><a href="website.html" >Login</a></button>
+            
+            
+        </form>
+
+        <div class="account">
+            <p>Dont have an account ?</p>
+            <a href="./signUp.html">Sign up</a>
+        </div>
+    </div>
+
+    <script>
+        function checkUserEmail() {
+            let check = document.querySelector(".ucheck");
+            document.getElementById("userNameOrEmail").value === "" ? check.innerHTML = "fill the username" : check.innerHTML = "";
+        }
+
+        function checkPassword() {
+            let check = document.querySelector(".pcheck");
+            document.getElementById("password").value === "" ? check.innerHTML = "fill the password" : check.innerHTML = "";
+        }
+
+        document.getElementById("showPassword").onclick = function() {
+            if (this.checked) {
+                document.getElementById("password").type = "text";
+            } else {
+                document.getElementById("password").type = "password";
+            }
+        }
+                
+        document.querySelector(".form").addEventListener("submit", function(e) {
+            let user = document.getElementById("userNameOrEmail").value;
+            let pass = document.getElementById("password").value;
+            let validUser = /^[A-Za-z0-9]{6,16}$/.test(user);
+            let validEmail = /([a-zA-Z0-9]+@[a-zA-Z0-9.-]+\.[a-zA-Z0-9.-]+)/.test(user);
+            let validPass = /^[a-zA-Z0-9!@#$%^&*]{6,16}$/.test(pass);
+            if (user === "" || pass === "" ) {
+                checkUserEmail();
+                checkPassword();
+                e.preventDefault();
+            } else {
+                let ucheck = document.querySelector(".ucheck");
+                let pcheck = document.querySelector(".pcheck");
+                if (validUser || validEmail) {
+                    ucheck.innerHTML = ""
+                    if (validPass) {
+                        pcheck.innerHTML = "";
+                    } else {
+                        pcheck.innerHTML = "Password must contain at least one uppercase character, lowercase character, number or one special character";
+                        e.preventDefault();
+                    }
+                } else {
+                    ucheck.innerHTML = "Invalid username or email address";
+                    e.preventDefault();
+                }
+            }
+        })
+    </script>
+</body>
+</html>

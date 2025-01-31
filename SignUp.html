@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <div class="container">
+        <form class="form" action="./signUp.php" method="post">
+            <h1 class="page-name">Sign Up</h1>
+            <input class="input-place" type="text" id="userName" placeholder="Username" name="user">
+            <span class="validation ucheck"></span>
+            <input class="input-place" type="email" id="email" placeholder="Email address" name="email">
+            <span class="validation echeck"></span>
+            <input class="input-place" type="password" id="password" placeholder="Password" name="pass">
+            <span class="validation pcheck"></span>
+            <input class="input-place" type="password" id="confirmPassword" placeholder="Confirm password" onkeyup="checkConfirmPassword(this)">
+            <span id="message"></span>
+            <span><label for="showPassword"><input type="checkbox" id="showPassword"> Show password</label></span>
+            <!-- <input class="input-place submit-btn" type="submit"> -->
+            <button class="btn_sub"><a href="website.html" >Submit</a></button>
+        </form>
+
+        <div class="account">
+            <p>Already have an account ?</p>
+            <a href="./login.html">Log in</a>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById("showPassword").onclick = function() {
+            if (this.checked) {
+                document.getElementById("confirmPassword").type = "text";
+            } else {
+                document.getElementById("confirmPassword").type = "password";
+            }
+        }
+
+        function checkUser() {
+            let ucheck = document.querySelector(".ucheck");
+            document.getElementById("userName").value === "" ? ucheck.innerHTML = "Invalid Username" : ucheck.innerHTML = "";
+        }
+
+        function checkEmail() {
+            let echeck = document.querySelector(".echeck");
+            document.getElementById("email").value === "" ? echeck.innerHTML = "Invalid Email" : echeck.innerHTML = "";
+        }
+
+        function checkPassword() {
+            let pcheck = document.querySelector(".pcheck");
+            document.getElementById("password").value === "" ? pcheck.innerHTML = "Password must contain at least one uppercase character, lowercase character, number or one special character" : pcheck.innerHTML = "";
+        }
+
+        function checkConfirmPassword() {
+            let message = document.getElementById("message");
+            if (document.getElementById("password").value != document.getElementById("confirmPassword").value) {
+                message.innerHTML = "Confirm password does not match";
+                message.style.color = "red";
+            } else {
+                message.innerHTML = "Confirm password matched";
+                message.style.color = "green";
+            }
+        }
+
+        document.querySelector(".form").addEventListener("submit", function(e) {
+            let user = document.getElementById("userName").value;
+            let email = document.getElementById("email").value;
+            let pass = document.getElementById("password").value;
+            let cpass = document.getElementById("confirmPassword").value;
+            let validUser = /^[A-Za-z0-9]{6,16}$/.test(user);
+            let validEmail = /([a-zA-Z0-9]+@[a-zA-Z0-9.-]+\.[a-zA-Z0-9.-]+)/.test(email);
+            let validPass = /^[a-zA-Z0-9!@#$%^&*]{6,16}$/.test(pass);
+
+            if (user === "" || email === "" || pass === "" || cpass === "") {
+                checkUser();
+                checkEmail();
+                checkPassword();
+                e.preventDefault();
+            } else {
+                let ucheck = document.querySelector(".ucheck");
+                let echeck = document.querySelector(".echeck");
+                let pcheck = document.querySelector(".pcheck");
+
+                if (validUser) {
+                    ucheck.innerHTML = "";
+                } else {
+                    ucheck.innerHTML = "Invalid Username";
+                    e.preventDefault();
+                }
+
+                if (validEmail) {
+                    echeck.innerHTML = "";
+                } else {
+                    echeck.innerHTML = "Invalid Email";
+                    e.preventDefault();
+                }
+
+                if (validPass) {
+                    pcheck.innerHTML = "";
+                } else {
+                    pcheck.innerHTML = "Password must contain at least one uppercase character, lowercase character, number or one special character";
+                    e.preventDefault();
+                }
+            }
+        })
+    </script>
+</body>
+</html>
